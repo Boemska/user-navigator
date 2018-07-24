@@ -1,6 +1,6 @@
 # User Navigator for SAS®
 
-The User Navigator for SAS® is an open source project for revealing information on SAS® Metadata Users, Groups, and Roles. 
+The User Navigator for SAS® is an open source project for revealing information on SAS® Metadata Users, Groups, and Roles.
 It is easy to use, easy to deploy, secured by SAS® Authentication, and beautifully illustrates the power of SAS® for Enterprise application development.
 
 This application is useful for:
@@ -53,6 +53,6 @@ Your app is now live!  Simply navigate to YOURHOST.DOMAIN:8080/usernavigator (wh
 
 ## Build Instructions
 
-See CONTRIBUTING.md
+See [CONTRIBUTING.md](https://github.com/Boemska/user-navigator/blob/master/CONTRIBUTING.md)
 
 
