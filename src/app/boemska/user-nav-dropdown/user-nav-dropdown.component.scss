@@ -1,0 +1,80 @@
+// there are no clear instructions how to use Clarity ui variables
+$clr-header-height: 2.5rem;
+$clr-near-white: #fafafa;
+$clr-dark-gray: #565656;
+$clr-light-gray: #eee;
+
+.boemska-nav-dropdown {
+  margin-right: 24px; // left padding for branding is also 24px
+  line-height: $clr-header-height;
+  height: $clr-header-height;
+
+  >button.dropdown-toggle {
+    color: $clr-near-white;
+    min-width: 200px;
+    position: relative;
+
+    &:after {
+      content: "";
+      background-color: $clr-near-white;
+      opacity: .15;
+      left: 0;
+      position: absolute;
+      width: 1px;
+      height: 40px;
+      top: 10px;
+    }
+
+    .badge {
+      &.hidden {
+        visibility: hidden;
+      }
+    }
+  }
+
+  clr-dropdown-menu {
+    color: $clr-dark-gray;
+    min-width: 200px;
+
+    .separator {
+      margin: 10px 0;
+      border-bottom: 1px solid $clr-light-gray;
+    }
+
+    .dropdown-item {
+      display: flex;
+      flex-direction: row;
+      position: relative;
+
+      .badge {
+        position: absolute;
+        top: 8px;
+        right: 26px;
+        margin-right: 0;
+      }
+
+      form {
+        padding: 0;
+        width: 100%;
+
+        .form-group {
+          padding: 0;
+          margin: 0;
+
+          .toggle-switch {
+            margin: 3px 0 3px auto;
+            width: 100%;
+
+            label {
+              font-size: 14px;
+              width: 110px;
+              margin-right: 42px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+

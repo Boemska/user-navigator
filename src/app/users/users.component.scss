@@ -1,0 +1,42 @@
+.divSettings {
+  text-align: center;
+  width:750px;
+  background : whitesmoke;
+  padding: 20px;
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+}
+
+.spinnerSettings {
+  text-align: center;
+  padding-top: 50px;
+}
+
+.alignCenter {
+  text-align: center;
+  vertical-align: middle;
+}
+
+tr:hover {
+  background: whitesmoke;
+}
+
+a:link {
+  color: #565656;
+}
+
+.table {
+  border: 1px solid darkgray;
+  padding: 0px 0px;
+  border-radius: 5px;
+}
+
+.tableWrapper {
+  overflow-x: scroll;
+}
+
+@media screen and (max-width: 480px) {
+  .tableWrapper {
+    padding: 0px 10px 0px 0px;
+  }
+}

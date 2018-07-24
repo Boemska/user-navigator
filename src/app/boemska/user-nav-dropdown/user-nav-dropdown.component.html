@@ -1,0 +1,79 @@
+<clr-dropdown class="boemska-nav-dropdown d-none d-md-block" clrMenuPosition="bottom-right">
+  <button class="nav-text" clrDropdownToggle>
+    <span>{{userName}}</span>
+    <span class="badge badge-danger" *ngIf="!debugMode" [class.hidden]="failedReqs.length === 0">{{failedReqs.length}}</span>
+    <span class="badge badge-info" *ngIf="debugMode" [class.hidden]="debugLogs.length === 0">{{debugLogs.length}}</span>
+    <clr-icon shape="caret down"></clr-icon>
+  </button>
+  <clr-dropdown-menu>
+    <div clrDropdownItem>
+      <form>
+        <div class="form-group">
+          <div class="toggle-switch" (click)="onDebugRowClick($event)">
+            <input id="debug-toggle" type="checkbox" [(ngModel)]="debugMode" (ngModelChange)="onDebugModeChange()" [ngModelOptions]="{standalone: true}"/>
+            <label for="debug-toggle">Debug Mode</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <a href="..." [routerLink]="['/application-logs']" clrDropdownItem>
+      <span>Application Logs</span>
+      <span class="badge" *ngIf="appLogs.length > 0">{{appLogs.length}}</span>
+    </a>
+    <a *ngIf="debugMode" href="..." [routerLink]="['/debug-logs']" clrDropdownItem>
+      <span>Debug Logs</span>
+      <span class="badge badge-info" *ngIf="debugLogs.length > 0">{{debugLogs.length}}</span>
+    </a>
+    <a *ngIf="!debugMode" href="..." [routerLink]="['/failed-requests']" clrDropdownItem>
+      <span>Failed Requests</span>
+      <span class="badge badge-danger" *ngIf="failedReqs.length > 0">{{failedReqs.length}}</span>
+    </a>
+    <a href="..." [routerLink]="['/errors']" clrDropdownItem>
+      <span>Errors</span>
+      <span class="badge badge-warning" *ngIf="sasErrors.length > 0">{{sasErrors.length}}</span>
+    </a>
+    <div class="separator"></div>
+    <a href="..." (click)="logout($event)" clrDropdownItem>
+      <span>Log Out</span>
+      <clr-icon shape="logout"></clr-icon>
+    </a>
+  </clr-dropdown-menu>
+</clr-dropdown>
+<div class="content-container">
+  <nav class="sidenav d-block d-md-none" [clr-nav-level]="2">
+    <section class="sidenav-content">
+      <a href="..." class="nav-link active">
+        {{userName}}
+      </a>
+      <div>
+        <form>
+          <div class="toggle-switch">
+            <input id="debug-toggle2" type="checkbox" [(ngModel)]="debugMode" (ngModelChange)="onDebugModeChange()" [ngModelOptions]="{standalone: true}"            />
+            <label for="debug-toggle2" style="padding-left: 42px; color: #313131;">Debug Mode</label>
+          </div>
+        </form>
+      </div>
+      <a href="..." class="nav-link d-block" [routerLink]="['/application-logs']">
+        <span>Application Logs</span>
+        <span class="badge" *ngIf="appLogs.length > 0">{{appLogs.length}}</span>
+      </a>
+      <a *ngIf="debugMode" class="nav-link d-block" href="..." [routerLink]="['/debug-logs']">
+        <span>Debug Logs</span>
+        <span class="badge badge-info" *ngIf="debugLogs.length > 0">{{debugLogs.length}}</span>
+      </a>
+      <a *ngIf="!debugMode" class="nav-link d-block" href="..." [routerLink]="['/failed-requests']">
+        <span>Failed Requests</span>
+        <span class="badge badge-danger" *ngIf="failedReqs.length > 0">{{failedReqs.length}}</span>
+      </a>
+      <a href="..." class="nav-link d-block" [routerLink]="['/errors']">
+        <span>Errors</span>
+        <span class="badge badge-warning" *ngIf="sasErrors.length > 0">{{sasErrors.length}}</span>
+      </a>
+      <div class="separator"></div>
+      <a href="..." class="nav-link d-block" (click)="logout($event)">
+        <span>Log Out</span>
+        <clr-icon shape="logout"></clr-icon>
+      </a>
+    </section>
+  </nav>
+</div>

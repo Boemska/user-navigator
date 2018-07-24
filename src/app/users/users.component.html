@@ -1,0 +1,65 @@
+<div *ngIf="isDataReady" class="divSettings col-lg-8 col-md-10 col-sm-12 col-xs-12">
+  <h2>
+    <span>
+      <b>{{memberName}}</b>
+    </span>
+  </h2>
+  <!--  -->
+  <br>
+  <h4>E-Mails ( {{memberEmails.length}} ) :</h4>
+  <div class="col-md-12 tableWrapper" *ngIf="showEmailsTable">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>E-MAIL</th>
+          <th>TYPE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emails of memberEmails">
+          <td style="cursor: pointer;">
+            <a [href]="'mailto:' + emails.EMAIL ">{{emails.EMAIL}}</a>
+          </td>
+          <td style="cursor: pointer;">{{emails.TYPE}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </div>
+  <div *ngIf="!showEmailsTable">
+    <span>No E-Mails For Selected User</span>
+    <br>
+  </div>
+  <!--  -->
+  <br>
+  <h4>Groups ( {{memberGroups.length}} ) :</h4>
+  <div class="col-md-12 tableWrapper" *ngIf="showGroupsTable">
+    <table class="table">
+      <tbody>
+        <tr *ngFor="let group of memberGroups">
+          <td style="cursor: pointer;" (click)="goToGroup(group.GROUPNAME)"> {{group.GROUPNAME}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </div>
+  <div *ngIf="!showGroupsTable">
+    <span>No Groups For Selected User</span>
+    <br>
+  </div>
+  <!--  -->
+  <h4>Roles ( {{sasRoles.length}} ) :</h4>
+  <div class="col-md-12 tableWrapper" *ngIf="showRolesTable">
+    <table class="table">
+      <tbody>
+        <tr *ngFor="let roles of sasRoles">
+          <td style="cursor: pointer;" (click)="goToRole(roles.ROLENAME)"> {{roles.ROLENAME}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!showRolesTable">
+    <span>No Roles For Selected User</span>
+    <br>
+  </div>
+</div>

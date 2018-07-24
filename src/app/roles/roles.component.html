@@ -1,0 +1,44 @@
+  <div *ngIf="isDataReady" class="divSettings col-lg-10 col-md-12 col-sm-12 col-xs-12">
+  <h2>
+    <span> {{roleName}} </span>
+  </h2>
+  <br>
+  <span>
+    <h4> Description: </h4>
+  </span>
+  <span>
+    {{roleDesc}}
+  </span>
+  <br>
+  <span *ngIf="showUsersTable">
+    <span>
+      <h4> Members ( {{members.length}} ) :</h4>
+    </span>
+    <div class="col-md-12 tableWrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>MEMBER NAME</th>
+            <th>E-MAIL</th>
+            <th>MEMBER UPDATED</th>
+            <th>MEMBER CREATED</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of members">
+            <td style="cursor: pointer;" (click)="goToUsers(member.MEMBERNAME)">{{member.MEMBERNAME}}</td>
+            <td style="cursor: pointer;"><a [href]="'mailto:' + member.EMAIL ">{{member.EMAIL}}</a></td>
+            <td style="cursor: pointer;" (click)="goToUsers(member.MEMBERNAME)">{{member.MEMBERUPDATED}}</td>
+            <td style="cursor: pointer;" (click)="goToUsers(member.MEMBERNAME)">{{member.MEMBERCREATED}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </span>
+  <span *ngIf="!showUsersTable">
+    <span>
+      <h4> Members:</h4>
+    </span>
+    <span>No Members For Selected Role</span>
+  </span>
+</div>

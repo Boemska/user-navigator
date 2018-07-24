@@ -1,0 +1,69 @@
+.clr-icon {
+  &.header-logo {
+    background-image: url(../images/logo.png);
+    width: 160px;
+    height: 38px;
+  }
+}
+
+.version {
+  display: flex;
+  height: 1rem;
+  position: fixed;
+  bottom: 0;
+  right: 1rem;
+}
+
+.contentMarginBottom {
+  margin-bottom: 1rem;
+}
+
+.menuFont {
+  display: inline-block;
+  color: #737373;
+  box-shadow: none;
+  line-height: 1.5rem;
+  text-decoration: none;
+  margin-right: 1rem;
+  box-sizing: inherit;
+}
+
+.menuFont:hover {
+  background: lightgrey;
+}
+
+.menuFont:focus {
+  color: black;
+  font-weight: bold;
+  background: lightgrey;
+}
+
+.nav {
+  justify-content: center;
+  background: #eeeeef;
+}
+
+.sub-nav {
+  background: #eeeeef;
+  max-height: 36px;
+}
+
+.nav-link {
+  color: darkgray
+}
+
+@media screen and (max-width: 768px) {
+  .largeScr {
+    display: none;
+  }
+  .sub-nav {
+    max-height: 36px;
+    margin-top: -22px;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .smallScr {
+    display: none;
+  }
+}

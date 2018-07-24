@@ -1,0 +1,25 @@
+<div *ngIf="!isPageReady" class="spinnerSettings alignCenter">
+  <br>
+  <span class="spinner spinner-lg">
+    Loading...
+  </span>
+</div>
+<br>
+<div *ngIf="isPageReady">
+  <div class="form-group filter">
+    <clr-icon shape="search" size="25"></clr-icon>
+    <input type="text" placeholder="Filter by user" size="22" #filter (keyup)="onFilterInput(filter.value)" />
+  </div>
+
+  <div class="row">
+    <table class="table">
+      <tbody>
+        <tr class="nav-link" *ngFor="let user of sasMembers; let i=index" (click)="selectUser(user.MEMBERNAME, i);filter.value=null"
+          [class.clicked]="i===selectedRow" style="cursor: pointer;">
+          <td> {{user.MEMBERNAME}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer"> Users: {{sasMembers.length}} of {{totalUsers}}</div>
+</div>

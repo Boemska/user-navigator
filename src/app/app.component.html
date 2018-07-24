@@ -1,0 +1,83 @@
+<clr-main-container>
+  <clr-header>
+    <div class="branding">
+      <a href="#" [routerLink]="['/']" class="nav-link">
+        <span class="clr-icon header-logo"></span>
+        <!-- <span class="title">User Navigator</span> -->
+      </a>
+    </div>
+    <div class="header-actions">
+      <div class="nav-text">
+        <boemska-loading-indicator></boemska-loading-indicator>
+      </div>
+      <div class="dropdown">
+        <boemska-user-nav-dropdown></boemska-user-nav-dropdown>
+      </div>
+    </div>
+  </clr-header>
+
+  <boemska-alerts></boemska-alerts>
+
+  <div class="content-container">
+
+    <!-- Large Screen -->
+    <div class="largeScr">
+      <nav class="sidenav">
+        <nav class="sub-nav">
+          <ul class="nav">
+
+            <li class="nav-item">
+              <a class="nav-link" href="#" [routerLink]="['/users']" routerLinkActive="active" (click)="setNav('users')">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" [routerLink]="['/groups']" routerLinkActive="active" (click)="setNav('groups')">Groups</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" [routerLink]="['/roles']" routerLinkActive="active" (click)="setNav('roles')">Roles</a>
+            </li>
+          </ul>
+
+        </nav>
+
+        <div>
+          <app-nav-users *ngIf="navSection === 'users'"></app-nav-users>
+          <app-nav-groups *ngIf="navSection === 'groups'"></app-nav-groups>
+          <app-nav-roles *ngIf="navSection === 'roles'"></app-nav-roles>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Small Screen -->
+    <div class="smallScr">
+      <nav class="sidenav" [clr-nav-level]="1">
+        <nav class="sub-nav">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="menuFont" href="#" [routerLink]="['/users']" (click)="setNav('users')">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="menuFont" href="#" [routerLink]="['/groups']" (click)="setNav('groups')">Groups</a>
+            </li>
+            <li class="nav-item">
+              <a class="menuFont" href="#" [routerLink]="['/roles']" (click)="setNav('roles')">Roles</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div>
+          <app-nav-users *ngIf="navSection === 'users'"></app-nav-users>
+          <app-nav-groups *ngIf="navSection === 'groups'"></app-nav-groups>
+          <app-nav-roles *ngIf="navSection === 'roles'"></app-nav-roles>
+        </div>
+      </nav>
+    </div>
+
+    <div class="content-area contentMarginBottom">
+      <router-outlet></router-outlet>
+      <div class="version">
+        <span>Version: {{version}}.{{hashPart}}</span>
+      </div>
+    </div>
+  </div>
+  <boemska-login></boemska-login>
+</clr-main-container>

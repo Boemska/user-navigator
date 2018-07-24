@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+
+.d-none {
+  display: none !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+/*  for Resolution above 768 */
+
+@media screen and (min-width: 769px) {
+  .main-container .content-container .sidenav {
+    height: calc(100vh - 60px);
+    overflow-y: scroll;
+    width: 14rem;
+  }
+  .main-container .sub-nav,
+  .main-container .subnav {
+    position: fixed;
+    width: 12.35rem;
+  }
+  .d-md-none {
+    display: none !important;
+  }
+  .d-md-inline {
+    display: inline !important;
+  }
+  .d-md-inline-block {
+    display: inline-block !important;
+  }
+  .d-md-block {
+    display: block !important;
+  }
+  .d-md-table {
+    display: table !important;
+  }
+  .d-md-table-cell {
+    display: table-cell !important;
+  }
+  .d-md-flex {
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+  .d-md-inline-flex {
+    display: -ms-inline-flexbox !important;
+    display: inline-flex !important;
+  }
+}
+
+/* for resolution smaller than 769 */
+
+@media screen and (max-width: 768px) {
+  .main-container.open-hamburger-menu .header .branding {
+    background: inherit;
+  }
+  .main-container .content-container .sidenav {
+    overflow-y: scroll;
+  }
+}

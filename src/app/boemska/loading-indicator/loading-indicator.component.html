@@ -1,0 +1,17 @@
+<div class="loading-indicator">
+  <clr-signpost>
+    <span clrSignpostTrigger class="spinner spinner-sm spinner-inverse" [style.display]="loading ? 'inline-block' : 'none'"></span>
+    <clr-icon clrSignpostTrigger shape="check" size="20" class="is-inverse" [style.display]="!loading && requests.length > 0 && requests[0].successful ? 'inline-block' : 'none'"></clr-icon>
+    <clr-icon clrSignpostTrigger shape="error" size="24" class="is-error" [style.display]="!loading && requests.length > 0 && !requests[0].successful ? 'inline-block' : 'none'"></clr-icon>
+
+    <clr-signpost-content [clrPosition]="'bottom-middle'" *clrIfOpen>
+      <p *ngFor="let request of requests">
+        <code>{{request.program}}</code>
+        &nbsp;
+        <span class="running" *ngIf="request.running">loading</span>
+        <span class="success" *ngIf="!request.running && request.successful">loaded</span>
+        <span class="fail" *ngIf="!request.running && !request.successful">failed</span>
+      </p>
+    </clr-signpost-content>
+  </clr-signpost>
+</div>

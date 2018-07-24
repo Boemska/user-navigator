@@ -1,0 +1,48 @@
+// there are no clear instructions how to use Clarity ui variables
+$clr-header-height: 2.5rem;
+$clr-dark-gray: #565656;
+$clr-red: #c92100;
+$yellow: rgb(233, 191, 4);
+$clr-green: #60b515;
+
+.loading-indicator {
+  line-height: $clr-header-height;
+  height: $clr-header-height;
+
+  .spinner {
+    vertical-align: middle;
+  }
+
+  clr-signpost-content {
+    line-height: 24px;
+    color: $clr-dark-gray;
+    cursor: auto;
+
+    p {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      span {
+        margin-left: 10px;
+
+        &.running {
+          color: $yellow;
+        }
+        &.success {
+          color: $clr-green;
+        }
+        &.fail {
+          color: $clr-red;
+        }
+      }
+    }
+  }
+}

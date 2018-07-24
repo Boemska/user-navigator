@@ -1,0 +1,5 @@
+<h3 class="text-center" *ngIf="logs.length === 0">Application logs list is empty</h3>
+<div *ngFor="let log of logs">
+  <p>{{log.time.toString()}}:</p>
+  <pre>{{log.message}} <span *ngIf="log.sasProgram">({{log.sasProgram}})</span></pre>
+</div>

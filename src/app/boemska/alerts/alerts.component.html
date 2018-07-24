@@ -1,0 +1,13 @@
+<clr-alerts *ngIf="hasOpenAlert">
+  <clr-alert *ngFor="let alert of alerts" [clrAlertType]="alert.type" [clrAlertAppLevel]="true" [(clrAlertClosed)]="alert.closed"
+    (clrAlertClosedChange)="onAlertClose()">
+    <div class="alert-item">
+      <span class="alert-text">
+        {{alert.message}}
+      </span>
+      <div class="alert-actions">
+        <button class="btn alert-action"><a [href]="'mailto:' + supportMail + '?subject=The license has expired'">Contact Support</a></button>
+      </div>
+    </div>
+  </clr-alert>
+</clr-alerts>

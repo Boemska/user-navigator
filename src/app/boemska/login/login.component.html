@@ -1,0 +1,22 @@
+<div class="login-sidebar-wrapper" [class.active]="isActive">
+  <div class="login-sidebar">
+    <form class="login" (ngSubmit)="submit()">
+      <label class="title">
+        <h3 class="welcome">Welcome to</h3>
+        User Navigator
+        <h5 class="hint">Use your Company ID to sign in</h5>
+      </label>
+      <div class="login-group">
+        <input [(ngModel)]="data.user" name="user" class="username" type="text" placeholder="Username">
+        <input [(ngModel)]="data.pass" name="pass" class="password" type="password" placeholder="Password">
+        <clr-alert [clrAlertType]="'alert-danger'" [(clrAlertClosed)]="alertClosed">
+          <div clr-alert-item class="alert-item">
+            <span class="alert-text">{{errorMsg}}</span>
+          </div>
+        </clr-alert>
+        <button [clrLoading]="loading" [disabled]="loading" type="submit" class="btn btn-primary">Log in</button>
+      </div>
+    </form>
+  </div>
+  <div class="overlay"></div>
+</div>
