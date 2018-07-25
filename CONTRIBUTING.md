@@ -53,6 +53,5 @@ export const AdapterSettings = {
 # Documentation
 
 For documentation on the H54S library go to the [H54S Github page](https://github.com/Boemska/h54s)
-
 For documentation on the Clarity Design System, including a list of components and example usage, see [our website](https://vmware.github.io/clarity).
 For documentation on Angular-CLI, please see their [github repository](https://github.com/angular/angular-cli).
