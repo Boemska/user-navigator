@@ -46,6 +46,7 @@ In the downloaded release, once unzipped, you will find a `web` folder.  The con
 ### 4 - Configure
 
 Inside the `web` folder there is a configuration file called `h54s.config`.  Within this, set the `metadataRoot` value to the folder root identified in step 2.
+Inside the `sas` folder there is a file called `h54snew.sas`.  This should be referenced with `%include` from the autoexec.
 
 ### 5 - Profit
 
