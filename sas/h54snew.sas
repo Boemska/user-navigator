@@ -3,7 +3,7 @@
 /*                                                                      */
 /************************************************************************/
 * options mprint mlogic;
-
+%global h54starget;
 %macro checkEnvironment;
   * set this to whatever your test harness is configured to ;
   %let batchOutFile=__STDERR__;
