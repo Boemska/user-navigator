@@ -145,19 +145,24 @@
 
 %macro bafOutDataset(outputas, outlib, outdsn);
 
-  data _null_;
-    file _webout;
-    put '"' "&outputas." '" : ';
-  run;
-  options validvarname=upcase;
-  proc json out=_webout pretty;
-    export &outlib..&outdsn. /  nosastags;
-  run;
+  %if %sysevalf(&sysver ge 9.4) %then %do;
+    data _null_;
+      file _webout;
+      put '"' "&outputas." '" : ';
+    run;
+    options validvarname=upcase;
+    proc json out=_webout pretty;
+      export &outlib..&outdsn. /  nosastags;
+    run;
 
-  data _null_;
-    file _webout;
-    put ',';
-  run;
+    data _null_;
+      file _webout;
+      put ',';
+    run;
+  %end;
+  %else %do;
+    %bafOutDataset93(&outputas, &outlib, &outdsn)
+  %end;
 %mend;
 
 %macro bafOutSingleMacro(objectName,singleValue);
@@ -262,4 +267,141 @@ data _null_;
     %end;
   %end;
 run;
+%mend;
+
+%macro bafOutDataset93(objectName, libn, dsn);
+* keep quiet in the log;
+  %hfsQuietenDown;
+
+  * check if the specified dataset / view exists and if not then gracefully quit this macro ;
+  %if (%sysfunc(exist(&libn..&dsn))=0 and %sysfunc(exist(&libn..&dsn,VIEW))=0) %then %do;
+    *abort macro execution but first make sure there is a message;
+    %global logmessage h54src;
+    %let logmessage=ERROR - Output table &libn..&dsn was not found;
+    %let h54src=outputTableNotFound;
+    *output an empty object so that it does not break things ;
+    data _null_;
+      file &h54starget.;
+      put '"' "&objectName." '" : [],';
+    run;
+    *quit this macro;
+    %return;
+  %end;
+
+  * get the name type length and variable position for all vars ;
+  proc contents noprint data=&libn..&dsn
+    out=tempCols(keep=name type length varnum);
+  run;
+
+  * ensure they are in original order ;
+  proc sort data=tempCols; by varnum;
+  run;
+
+  * get first and last column names;
+  data _null_;
+    set tempCols end=lastcol;
+    name=upcase(name);
+    if _n_ = 1 then do;
+      call symputx('firstCol',name,'l');
+    end;
+    call symputx(cats('name',_n_),name,'l');
+    call symputx(cats('type',_n_),type,'l');
+    /* char vars are urlencoded and lengthened to 30000 in next step */
+    if type=2 then call symputx(cats('length',_n_),30000,'l');
+    else call symputx(cats('length',_n_),length,'l');
+    if lastcol then do;
+      call symputx('lastCol',name,'l');
+      call symputx('totalCols',_n_,'l');
+    end;
+  run;
+
+
+  *create the urlencoded view here;
+  proc sql noprint;
+    create view tempOutputView as
+  select
+  %do colNo= 1 %to &totalCols;
+    /* type 1=numeric, type 2=character in proc contents */
+    %if &&type&colNo = 2 %then %do;
+      urlencode(strip(&&name&colNo)) as &&name&colNo length=30000
+    %end;
+    %else %do;
+      &&name&colNo as &&name&colNo
+    %end;
+    %if &&name&colNo ne &lastCol %then %do;
+      ,
+    %end;
+  %end;
+
+  from &libn..&dsn.
+  quit;
+
+  *output to webout / target;
+  data _null_;
+    file &h54starget.;
+    put '"' "&objectName." '" : [';
+  run;
+
+  data _null_;
+    file &h54starget.;
+    set tempOutputView end=lastrec;
+    /* strip SAS numeric formats whilst retaining precision */
+    format _numeric_ best32.;
+    %do colNo= 1 %to &totalCols;
+      %if &totalCols = 1 %then %do;
+        %if &&type&colNo = 2 %then %do;
+          put '{"' "&&name&colNo" '":"' &&name&colNo +(-1) '"}';
+          if not lastrec then put ",";
+        %end;
+        %else %if &&type&colNo = 1 %then %do;
+          if &&name&colNo = . then put '{"' "&&name&colNo" '":' 'null ' +(-1) '}';
+          else put '{"' "&&name&colNo" '":' &&name&colNo +(-1) '}';
+          if not lastrec then put ",";
+        %end;
+      %end;
+
+      %else %if &&name&colNo = &firstCol %then %do;
+        %if &&type&colNo = 2 %then %do;
+          put '{"' "&&name&colNo" '":"' &&name&colNo +(-1) '",';
+        %end;
+        %else %if &&type&colNo = 1 %then %do;
+          if &&name&colNo = . then put '{"' "&&name&colNo" '":' 'null ' +(-1) ',';
+          else put '{"' "&&name&colNo" '":' &&name&colNo +(-1) ',';
+        %end;
+      %end;
+
+      %else %if &&name&colNo = &lastCol %then %do;
+        %if &&type&colNo = 2 %then %do;
+          put '"' "&&name&colNo" '":"' &&name&colNo +(-1) '"}';
+          if not lastrec then put ",";
+        %end;
+        %else %if &&type&colNo = 1 %then %do;
+          if &&name&colNo = . then put '"' "&&name&colNo" '":' 'null ' +(-1) '}';
+          else put '"' "&&name&colNo" '":' &&name&colNo +(-1) '}';
+          if not lastrec then put ",";
+        %end;
+      %end;
+
+      %else %do;
+        %if &&type&colNo = 2 %then %do;
+          put '"' "&&name&colNo" '":"' &&name&colNo +(-1) '",';
+        %end;
+        %else %if &&type&colNo = 1 %then %do;
+          if &&name&colNo = . then put '"' "&&name&colNo" '":' 'null ' +(-1) ',';
+          else put '"' "&&name&colNo" '":' &&name&colNo +(-1) ',';
+        %end;
+      %end;
+    %end;
+  run;
+
+  data _null_;
+    file &h54starget.;
+    put '],';
+  run;
+
+  * delete the temporary tables ;
+  proc datasets library=work nodetails nolist;
+    delete tempOutputView tempCols ;
+  quit ;
+
 %mend;
