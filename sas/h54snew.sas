@@ -7,7 +7,15 @@
 %macro checkEnvironment;
   * set this to whatever your test harness is configured to ;
   %let batchOutFile=__STDERR__;
-  * could do with a nicer way to check whether _WEBOUT is available ;
+
+  %if %sysevalf(&sysver<9.4) %then %do;
+    /* need a better way to determine processmode for earlier SAS verions */
+    /* https://stackoverflow.com/questions/48464813/determining-server-context-workspace-server-vs-stored-process-server */
+    %global sysprocessmode;
+    %if %symexist(_program) %then %let sysprocessmode=Stored Process Server;
+    %else %let sysprocessmode = SAS Batch Mode;
+  %end;
+
   %if (&sysprocessmode = SAS Batch Mode ) %then %do;
     %let h54starget=&batchOutFile.;
   %end;
