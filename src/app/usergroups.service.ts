@@ -18,6 +18,10 @@ export class UsergroupsService {
   public subRole = new Subject<any>();
   public selectedRole = new Subject<number>();
 
+  public allMembers: Array<string> = [];
+  public allGroups: Array<string> = [];
+  public allRoles: Array<string> = [];
+
   constructor(
     private _adapterService: AdapterService,
     private _router: Router,
@@ -50,7 +54,9 @@ export class UsergroupsService {
   };
 
   public async getAllMembers() {
-    return await this._adapterService.call('Public/getAllMembers', null);
+    let data = await this._adapterService.call('Public/getAllMembers', null);
+    this.allMembers = data.sasMembers;
+    return this.allMembers;
   };
 
   public getGroupsByMember(memberName: string) {
@@ -95,7 +101,9 @@ export class UsergroupsService {
   };
 
   public async getAllGroups() {
-    return await this._adapterService.call('Public/getAllGroups', null);
+    let data = await this._adapterService.call('Public/getAllGroups', null);
+    this.allGroups = data.sasGroups;
+    return this.allGroups;
   };
 
   public async getMembersByGroup(groupId: string) {
@@ -140,7 +148,9 @@ export class UsergroupsService {
   };
 
   public async getAllRoles() {
-    return await this._adapterService.call('Public/getAllRoles', null);
+    let data = await this._adapterService.call('Public/getAllRoles', null);
+    this.allRoles = data.sasRoles;
+    return this.allRoles;
   };
 
   public getMembersByRole(roleName: string) {

@@ -10,7 +10,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class GroupsComponent implements OnInit, OnDestroy {
-  public sasGroups: Array<any>;
+
+  public sasGroups: Array<any> = [];
   public members: Array<any> = [];
   public groupDesc: string = '';
   public groupName: string = '';
@@ -23,31 +24,33 @@ export class GroupsComponent implements OnInit, OnDestroy {
     private _url: ActivatedRoute
   ) { }
 
-  async ngOnInit() {
-    this.groupSub = this._url.params.subscribe(async (gr: Params) => {
+  ngOnInit() {
+    this.groupSub = this._url.params.subscribe(
+      async (gr: Params) => {
+        try {
+          if (this._usergroupsService.allGroups.length) {
+            this.sasGroups = await this._usergroupsService.allGroups;
+          } else {
+            this.sasGroups = await this._usergroupsService.getAllGroups();
+          }
+        } catch (error) {
+          console.log(error);
+        }
 
-      this.groupName = gr.groupName;
-      this._usergroupsService.setGroup(this.groupName);
-
-      try {
-        let response = await this._usergroupsService.getAllGroups();
-        this.sasGroups = response.sasGroups;
+        this.groupName = gr.groupName;
+        this._usergroupsService.setGroup(this.groupName);
 
         for (let i = 0; i < this.sasGroups.length; i++) {
           this.sasGroups[i].GROUPNAME = this._usergroupsService.repairTxt(this.sasGroups[i].GROUPNAME);
-
           if (this.sasGroups[i].GROUPNAME === this.groupName) {
             this._usergroupsService.setSelectedGroup(i);
           }
         }
-      } catch (error) {
-        console.log(error);
-      }
 
-      if (this.groupName) {
-        this.selectGroup(this.groupName);
-      };
-    });
+        if (this.groupName) {
+          this.selectGroup(this.groupName);
+        };
+      });
   }
 
   public async selectGroup(groupName) {

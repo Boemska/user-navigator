@@ -31,8 +31,8 @@ export class NavRolesComponent implements OnInit, OnDestroy {
     this.roleSub = this._usergroupsService.subRole.subscribe(
       async rl => {
         try {
-          let response = await this._usergroupsService.getAllRoles();
-          this.sasRoles = this.sasRolesAll = response.sasRoles;
+          this.sasRolesAll = await this._usergroupsService.allRoles;
+          this.sasRoles = this.sasRolesAll;
 
         } catch (error) {
           console.log(error)
