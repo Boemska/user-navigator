@@ -31,9 +31,7 @@ a:link {
   border-radius: 5px;
 }
 
-@media screen and (max-width: 860px) {
-  .tableWrapper {
-    overflow-x: scroll;
-    padding: 0px 10px 0px 0px;
-  }
+.tableWrapper {
+  overflow-x: auto;
+  padding: 0px 10px 0px 0px;
 }
