@@ -31,8 +31,8 @@ export class NavGroupsComponent implements OnInit, OnDestroy {
     this.groupSub = this._usergroupsService.subGroup.subscribe(
       async gr => {
         try {
-          let response = await this._usergroupsService.getAllGroups();
-          this.sasGroups = this.sasGroupsAll = response.sasGroups;
+          this.sasGroupsAll = await this._usergroupsService.allGroups;
+          this.sasGroups = this.sasGroupsAll;
 
         } catch (error) {
           console.log(error);

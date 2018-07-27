@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class UsersComponent implements OnInit, OnDestroy {
 
-  public sasMembers: Array<any>;
+  public sasMembers: Array<any> = [];
   public memberEmails: Array<any>;
   public memberGroups: Array<any>;
   public sasRoles: Array<any>;
@@ -26,33 +26,37 @@ export class UsersComponent implements OnInit, OnDestroy {
   private _memberObject: any;
 
   constructor(
-    private _url: ActivatedRoute,
-    private _usergroupsService: UsergroupsService
+    private _usergroupsService: UsergroupsService,
+    private _url: ActivatedRoute
   ) { }
 
-  async ngOnInit() {
-    this.userSub = this._url.params.subscribe(async (usr: Params) => {
-      try {
-        let response = await this._usergroupsService.getAllMembers();
-        this.sasMembers = response.sasMembers;
-      } catch (error) {
-        console.log(error);
-      }
-
-      this.memberName = usr.memberName;
-      this._usergroupsService.setUser(this.memberName);
-
-      for (let i = 0; i < this.sasMembers.length; i++) {
-        this.sasMembers[i].MEMBERNAME = this._usergroupsService.repairTxt(this.sasMembers[i].MEMBERNAME);
-        if (this.sasMembers[i].MEMBERNAME === this.memberName) {
-          this._usergroupsService.setSelectedUser(i);
+  ngOnInit() {
+    this.userSub = this._url.params.subscribe(
+      async (usr: Params) => {
+        try {
+          if (this._usergroupsService.allMembers.length) {
+            this.sasMembers = await this._usergroupsService.allMembers;
+          } else {
+            this.sasMembers = await this._usergroupsService.getAllMembers();
+          }
+        } catch (error) {
+          console.log(error);
         }
-      }
 
-      if (this.memberName) {
-        this.selectUser(this.memberName);
-      };
-    })
+        this.memberName = usr.memberName;
+        this._usergroupsService.setUser(this.memberName);
+
+        for (let i = 0; i < this.sasMembers.length; i++) {
+          this.sasMembers[i].MEMBERNAME = this._usergroupsService.repairTxt(this.sasMembers[i].MEMBERNAME);
+          if (this.sasMembers[i].MEMBERNAME === this.memberName) {
+            this._usergroupsService.setSelectedUser(i);
+          }
+        }
+
+        if (this.memberName) {
+          this.selectUser(this.memberName);
+        };
+      });
   }
 
   public async selectUser(memberName) {

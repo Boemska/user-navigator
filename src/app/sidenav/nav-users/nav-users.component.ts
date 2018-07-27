@@ -31,8 +31,8 @@ export class NavUsersComponent implements OnInit, OnDestroy {
     this.userSub = this._usergroupsService.subUser.subscribe(
       async usr => {
         try {
-          let response = await this._usergroupsService.getAllMembers();
-          this.sasMembers = this.sasMembersAll = response.sasMembers;
+          this.sasMembersAll = await this._usergroupsService.allMembers;
+          this.sasMembers = this.sasMembersAll;
 
         } catch (error) {
           console.log(error);

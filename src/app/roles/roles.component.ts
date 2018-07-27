@@ -10,7 +10,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class RolesComponent implements OnInit, OnDestroy {
-  public sasRoles: Array<any>;
+
+  public sasRoles: Array<any> = [];
   public members: Array<any> = [];
   public roleDesc: string = '';
   public roleName: string = '';
@@ -23,31 +24,33 @@ export class RolesComponent implements OnInit, OnDestroy {
     private _url: ActivatedRoute
   ) { }
 
-  async ngOnInit() {
-    this.roleSub = this._url.params.subscribe(async (rl: Params) => {
+  ngOnInit() {
+    this.roleSub = this._url.params.subscribe(
+      async (rl: Params) => {
+        try {
+          if (this._usergroupsService.allRoles.length) {
+            this.sasRoles = await this._usergroupsService.allRoles;
+          } else {
+            this.sasRoles = await this._usergroupsService.getAllRoles();
+          }
+        } catch (error) {
+          console.log(error);
+        }
 
-      this.roleName = rl.roleName;
-      this._usergroupsService.setRole(this.roleName);
-
-      try {
-        let response = await this._usergroupsService.getAllRoles();
-        this.sasRoles = response.sasRoles;
+        this.roleName = rl.roleName;
+        this._usergroupsService.setRole(this.roleName);
 
         for (let i = 0; i < this.sasRoles.length; i++) {
           this.sasRoles[i].ROLENAME = this._usergroupsService.repairTxt(this.sasRoles[i].ROLENAME);
-
           if (this.sasRoles[i].ROLENAME === this.roleName) {
             this._usergroupsService.setSelectedRole(i);
           }
         }
-      } catch (error) {
-        console.log(error);
-      }
 
-      if (this.roleName) {
-        this.selectRole(this.roleName);
-      };
-    });
+        if (this.roleName) {
+          this.selectRole(this.roleName);
+        };
+      });
   }
 
   public async selectRole(roleName) {
