@@ -12,7 +12,8 @@
    - WM permissions on meta folder target
 
   @param loc_swa location of connection profile for export tool
-
+  @param loc_deploy location in metadata to which to deploy the generated SPK.
+    This is used to verify that the SPK was correctly generated.
 
   @version 9.4
   @author Allan Bowe
@@ -23,11 +24,12 @@
 
 /* params */
 %let loc_repo=/pub/apps/user-navigator; /* source code */
-%let loc_meta=/Apps/UserNavigator; /* metadata location */
+%let loc_meta=/Apps/UserNavigator; /* metadata location for the built SPK */
 %let loc_h54=/pub/apps/user-navigator/sas/h54snew.sas; /* h54s adapter loc */
-%let loc_build=/pub/builds/usernav; /* output location for SPK etc */
+%let loc_build=/pub/builds/usernav; /* physical location for build artefacts */
 %let loc_core=/pub/programs/macrocore; /* location of macrocore library */
 %let loc_swa=~/.SASAppData/MetadataServerProfiles/apps.swa;
+%let loc_deploy=/Tests/UserNavigator;
 
 /*
   macro from core library
@@ -36,7 +38,9 @@
 options insert=(sasautos=("&loc_core/base"));
 options insert=(sasautos=("&loc_core/meta"));
 
-%let build_dir=&loc_build/%mf_uid();
+%let uid=%mf_uid();
+%let build_dir=&loc_build/&uid;
+%let deploy_dir=&loc_deploy/&uid;
 
 %mf_mkdir(&build_dir);
 
@@ -147,10 +151,35 @@ data _null_;
     ) &dlm ./ExportPackage &connx_string -disableX11 %trim(
     )-package ""&build_dir/import.spk"" %trim(
     )-objects ""&loc_meta(Folder)"" %trim(
+    )-types ""StoredProcess"" %trim(
     )-log ""&build_dir/spkexport.log"" 2>&1"
-    pipe lrecl=1000;
+    pipe lrecl=10000;
   input;
   list;
+run;
+
+
+/**
+ * We now have a generated SPK, lets deploy it to make sure it works ok
+ */
+%mm_createfolder(path=&deploy_dir)
+
+data _null_;
+  infile "&init cd ""&platform_object_path"" %trim(
+    ) &dlm ./ImportPackage &connx_string -disableX11 %trim(
+    )-package ""&build_dir/import.spk"" %trim(
+    )-target ""&deploy_dir(Folder)"" %trim(
+    )-log ""&build_dir/spkimport.log"" 2>&1"
+    pipe lrecl=10000;
+  input;
+  list;
+run;
+
+/* create the config file for web frontend */
+data _null_;
+  file "&build_dir/h54sConfig.json";
+  string='{"metadataRoot":"'!!"&deploy_dir"!!'/UserNavigator"}';
+  put string;
 run;
 
 
@@ -170,8 +199,8 @@ data _null_;
   putlog _infile_;
 run;
 
-/*
 
+/*
 filename response temp;
 options noquotelenmax;
 proc metadata in= "<GetMetadata>
