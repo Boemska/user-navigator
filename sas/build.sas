@@ -162,8 +162,18 @@ run;
 /**
  * We now have a generated SPK, lets deploy it to make sure it works ok
  */
-%mm_createfolder(path=&deploy_dir)
 
+/* first, make folder */
+data _null_;
+  infile "&init cd ""&platform_object_path/tools"" %trim(
+    ) &dlm ./sas-make-folder &connx_string  %trim(
+    ) ""&deploy_dir"" -makeFullPath 2>&1"
+    pipe lrecl=10000;
+  input;
+  list;
+run;
+
+/* now, import to that folder */
 data _null_;
   infile "&init cd ""&platform_object_path"" %trim(
     ) &dlm ./ImportPackage &connx_string -disableX11 %trim(
