@@ -38,7 +38,6 @@ The latest stable version of User Navigator is always available as a github [rel
 ### 2 - Implement the backend
 
 In the downloaded zip file, in the `sas` folder, you will find an SPK.  Import this SPK to a preferred location in metadata.  Secure this application by setting an ACT as appropriate on the parent folder.  Take note of the folder root in which these STPs were deployed (as it's used in the configuration in step 4).
-There is also a file called `h54snew.sas`.  This contains the macros used to decompile the communications between the frontend and SAS.  It should be copied to the SAS server and `%inc`'d as part of the STP autoexec.
 
 ### 3 - Implement the frontend
 
