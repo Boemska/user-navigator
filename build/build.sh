@@ -38,7 +38,7 @@ ng build --prod --aot --base-href ./
 
 # This is where we should run the SAS build and obtain the relevant
 # h54s config file
-cp $SCRLOC/h54sConfig.json $SCRLOC/tmp/$PROJECT_FOLDER/dist/h54sConfig.json
+cp $SCRLOC/tmp/$PROJECT_FOLDER/build/h54sConfig.json $SCRLOC/tmp/$PROJECT_FOLDER/dist/h54sConfig.json
 
 echo ---------------------------------------------------------------
 echo Copy build files across to build repo
