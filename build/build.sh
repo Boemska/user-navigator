@@ -64,8 +64,8 @@ echo ---------------------------------------------------------------
 echo Build - Boemska
 echo ---------------------------------------------------------------
 cd $SCRLOC/tmp/$PROJECT_FOLDER
+rm -rf $SCRLOC/tmp/$PROJECT_FOLDER/dist/.
 ng build --prod --aot --base-href /apps/repo/dev/$WORKSPACE_ID/
-find . -path ./dist -prune -o -exec rm -rf {} \; 2> /dev/null
 cp $SCRLOC/tmp/$PROJECT_FOLDER/build/boemska_h54sConfig.json ./dist/h54sConfig.json
 cd ./dist
 
@@ -74,7 +74,6 @@ echo Sending to Work-Space
 echo ---------------------------------------------------------------
 bap-sync --serverUrl https://apps.boemskats.com/apps/ --repoUrl repo/dev/ --workspaceID $WORKSPACE_ID --authToken $AUTHTOKEN --excludes node_modules
 cd $SRCLOC
-rm -rf ./tmp
 
 echo ---------------------------------------------------------------
 echo Finish
