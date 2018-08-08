@@ -78,7 +78,7 @@ echo ---------------------------------------------------------------
 mkdir $SCRLOC/tmp/test
 cp -a $SCRLOC/tmp/$PROJECT_FOLDER/dist/. $SCRLOC/tmp/test
 cp $SCRLOC/tmp/contents//h54sConfig.json $SCRLOC/tmp/test/h54sConfig.json
-rsync -avz --exclude .git/ --exclude .gitignore --del $SCRLOC/tmp/test \
+rsync -avz --exclude .git/ --exclude .gitignore --del $SCRLOC/tmp/test/* \
     $USERNAME@apps.boemskats.com:/pub/ht/builds/usernavigator
 
 #echo ---------------------------------------------------------------
