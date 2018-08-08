@@ -81,6 +81,14 @@ cp $SCRLOC/tmp/contents//h54sConfig.json $SCRLOC/tmp/test/h54sConfig.json
 rsync -avz --exclude .git/ --exclude .gitignore --del $SCRLOC/tmp/test/* \
     $USERNAME@apps.boemskats.com:/pub/ht/builds/usernavigator
 
+echo ---------------------------------------------------------------
+echo Create Zip folder
+echo ---------------------------------------------------------------
+
+cd $SCRLOC/tmp
+zip -r user-navigator.zip $SCRLOC/tmp/$BUILD_FOLDER/*
+
+
 #echo ---------------------------------------------------------------
 #echo Git Commit - commit build files to build repo
 #echo ---------------------------------------------------------------
