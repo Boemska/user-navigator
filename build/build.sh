@@ -38,8 +38,9 @@ curl -v -L -k -b cookiefile -c cookiefile \
 unzip SAS.zip
 
 # Copy SPK and config file to client build
+mkdir $SCRLOC/tmp/$BUILD_FOLDER
 mkdir $SCRLOC/tmp/$BUILD_FOLDER/sas
-cp contents/import.spk $SCRLOC/tmp/$BUILD_FOLDER/sas
+cp $SCRLOC/tmp/contents/import.spk $SCRLOC/tmp/$BUILD_FOLDER/sas
 
 
 echo ---------------------------------------------------------------
@@ -76,8 +77,7 @@ echo ---------------------------------------------------------------
 
 mkdir $SCRLOC/tmp/test
 cp -a $SCRLOC/tmp/$PROJECT_FOLDER/dist/. $SCRLOC/tmp/test
-cp $SCRLOC/tmp/$BUILD_FOLDER/sas/contents/h54sConfig.json \
-    $SCRLOC/tmp/test/h54sConfig.json
+cp $SCRLOC/tmp/contents//h54sConfig.json $SCRLOC/tmp/test/h54sConfig.json
 rsync -avz --exclude .git/ --exclude .gitignore --del $SCRLOC/tmp/test \
     $USERNAME@apps.boemskats.com:/pub/ht/builds/usernavigator
 
@@ -96,7 +96,7 @@ echo ---------------------------------------------------------------
 echo Deploy to Boemska AppFactory with Developer friendly build
 echo ---------------------------------------------------------------
 cd $SCRLOC/tmp/$PROJECT_FOLDER
-rm -rf $SCRLOC/tmp/$PROJECT_FOLDER/dist/.
+rm -rf $SCRLOC/tmp/$PROJECT_FOLDER/dist
 ng build --prod --aot --base-href /apps/repo/dev/$WORKSPACE_ID/
 cp $SCRLOC/tmp/$PROJECT_FOLDER/build/boemska_h54sConfig.json \
     ./dist/h54sConfig.json
