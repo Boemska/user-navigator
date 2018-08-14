@@ -6,11 +6,9 @@ It is easy to use, easy to deploy, secured by SAS® Authentication, and beautifu
 This application is useful for:
 
 * Service Desk teams / first line support
-* End users - who want to understand their own permissions without running code
+* End users - who want to understand their own group / role membership without running code
 * SAS Administrators, as a supplement to Management Console
 * SAS Application Developers, looking for a simple app that can be extended / customised as needed.
-
-For more information, check out https://usernavigator.com
 
 ## Usage
 The User Navigator for SAS® is split into three parts:
@@ -33,7 +31,7 @@ There are five steps to getting the User Navigator up and running in your enviro
 
 ### 1 - Download the Source
 
-The latest stable version of User Navigator is always available as a github [release](https://github.com/Boemska/user-navigator/releases).  If you prefer to build from source, follow the Build Instructions below.  This will create the zip file containing two folders - `web` (front end) and `sas` (stored processes etc).
+The latest stable version of User Navigator is always available as a github [release](https://github.com/Boemska/user-navigator/releases).  If you prefer to build from source, follow the [Build Instructions](https://github.com/Boemska/user-navigator/blob/master/CONTRIBUTING.md).  This will create the zip file containing two folders - `web` (front end) and `sas` (stored processes etc).
 
 ### 2 - Implement the backend
 
