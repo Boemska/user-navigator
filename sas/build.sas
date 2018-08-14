@@ -42,7 +42,7 @@ options insert=(sasautos=("&loc_core/meta"));
 %let build_dir=&loc_build/&uid;
 %let deploy_dir=&loc_deploy/&uid;
 
-%mf_mkdir(&build_dir);
+%mf_mkdir(&build_dir)
 
 proc printto log="&build_dir/sasbuild.log";
 run;
@@ -181,8 +181,7 @@ data _null_;
     )-target ""&deploy_dir(Folder)"" %trim(
     )-log ""&build_dir/spkimport.log"" 2>&1"
     pipe lrecl=10000;
-  input;
-  list;
+  input; list;
 run;
 
 /* create the config file for web frontend */
@@ -209,6 +208,20 @@ data _null_;
   putlog _infile_;
 run;
 
+data _null_;
+  infile "cd &build_dir; zip -r spk.zip . "
+    pipe lrecl=10000;
+  input; list;
+run;
+
+/* now serve zip file to client */
+data _null_;
+  rc = stpsrv_header('Content-type','application/zip');
+  rc = stpsrv_header('Content-disposition',"attachment; filename=spk.zip");
+run;
+
+%mp_binarycopy(inloc="&build_dir/spk.zip"
+  ,outref=_webout);
 
 /*
 filename response temp;
