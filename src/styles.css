@@ -13,13 +13,14 @@
 @media screen and (min-width: 769px) {
   .main-container .content-container .sidenav {
     height: calc(100vh - 60px);
-    overflow-y: scroll;
-    width: 14rem;
+    overflow-y: auto;
+    width: 310px;
   }
   .main-container .sub-nav,
   .main-container .subnav {
     position: fixed;
-    width: 12.35rem;
+    width: 310px;
+    border: 1px solid #ccc;
   }
   .d-md-none {
     display: none !important;
@@ -56,6 +57,6 @@
     background: inherit;
   }
   .main-container .content-container .sidenav {
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }

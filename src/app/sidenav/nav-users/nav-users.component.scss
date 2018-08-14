@@ -29,11 +29,11 @@ table {
   position: fixed;
   padding: 1rem 0 1rem 0;
   background: #fafafa;
-  width: 298px;
-  top: 91px;
+  width: 294px;
+  height: 71px;
+  top: 96px;
   left: 0px;
-  border-top: 1px solid darkgrey;
-  border-bottom: 1px solid darkgrey;
+  border-bottom: 1px solid #ccc;
 }
 
 @media screen and (max-width: 768px) {
@@ -59,6 +59,7 @@ table {
   }
   .row {
     height: 10000px;
+    top: 300px;
   }
 }
 
@@ -84,11 +85,11 @@ table {
 @media screen and (min-width: 769px) {
   .footer {
     display: flex;
-    height: 1rem;
+    height: 30px;
     background: whitesmoke;
-    border-top: 1px solid darkgrey;
+    border: 1px solid #ccc;
     position: fixed;
     bottom: 0;
-    width: 12.35rem;
+    width: 310px;
   }
 }
