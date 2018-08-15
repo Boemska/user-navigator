@@ -1,6 +1,6 @@
 #!/bin/bash
 ####################################################################
-# PROJECT: User Naviator                                           #
+# PROJECT: User-Navigator                                          #
 ####################################################################
 WORKSPACE_ID="626f7f4b"
 AUTHTOKEN="9471a807f8d54a76b"
@@ -17,16 +17,24 @@ echo
 echo  [ buildScript ]
 
 # get SAS creds for running the build STP
-echo -n What is your SAS username?
+echo -n What is your SAS username? :
 read USERNAME
 
-echo -n What is your SAS password?
+echo -n What is your SAS password? :
+stty -echo
 read PASSWORD
+stty echo
 
+if [ ! -d $SCRLOC ]; then
+  mkdir $SCRLOC
+fi
 cd $SCRLOC
-rm -rf ./tmp
-mkdir tmp
-cd tmp
+rm -rf $SCRLOC/tmp
+mkdir $SCRLOC/tmp
+cd $SCRLOC/tmp
+
+mkdir -p $SCRLOC/tmp/$BUILD_FOLDER
+mkdir -p $SCRLOC/tmp/$BUILD_FOLDER/sas
 
 echo ---------------------------------------------------------------
 echo  Perform SAS Build
@@ -35,11 +43,9 @@ echo ---------------------------------------------------------------
 curl -v -L -k -b cookiefile -c cookiefile \
   -d "_program=$BUILDSTP&_username=$USERNAME&_password=$PASSWORD" \
   $BUILDSERVER --output SAS.zip
-unzip SAS.zip
+unzip SAS.zip -d ./contents
 
 # Copy SPK and config file to client build
-mkdir $SCRLOC/tmp/$BUILD_FOLDER
-mkdir $SCRLOC/tmp/$BUILD_FOLDER/sas
 cp $SCRLOC/tmp/contents/import.spk $SCRLOC/tmp/$BUILD_FOLDER/sas
 
 
@@ -77,10 +83,11 @@ echo ---------------------------------------------------------------
 
 mkdir $SCRLOC/tmp/test
 cp -a $SCRLOC/tmp/$PROJECT_FOLDER/dist/. $SCRLOC/tmp/test
-cp $SCRLOC/tmp/contents//h54sConfig.json $SCRLOC/tmp/test/h54sConfig.json
+cp $SCRLOC/tmp/contents/h54sConfig.json $SCRLOC/tmp/test/h54sConfig.json
 rsync -avz --exclude .git/ --exclude .gitignore --del $SCRLOC/tmp/test/* \
     $USERNAME@apps.boemskats.com:/pub/ht/builds/usernavigator
 
+<<<<<<< Updated upstream
 echo ---------------------------------------------------------------
 echo Create Zip folder
 echo ---------------------------------------------------------------
@@ -89,13 +96,17 @@ cd $SCRLOC/tmp
 zip -r user-navigator.zip $SCRLOC/tmp/$BUILD_FOLDER/*
 
 
+=======
+cd $SCRLOC/tmp
+zip -r user-navigator.zip $SCRLOC/tmp/$BUILD_FOLDER/*
+>>>>>>> Stashed changes
 #echo ---------------------------------------------------------------
 #echo Git Commit - commit build files to build repo
 #echo ---------------------------------------------------------------
 #git add .
 #echo Enter Commit Message:
 #read MSG
-#git commit -am"$MSG"
+#git commit -m"$MSG"
 #git push
 #cd ..
 #rm -rf ./$BUILD_FOLDER
