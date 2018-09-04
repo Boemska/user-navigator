@@ -34,7 +34,6 @@ mkdir $SCRLOC/tmp
 cd $SCRLOC/tmp
 
 mkdir -p $SCRLOC/tmp/$BUILD_FOLDER
-mkdir -p $SCRLOC/tmp/$BUILD_FOLDER/sas
 
 echo ---------------------------------------------------------------
 echo  Perform SAS Build
@@ -46,7 +45,7 @@ curl -v -L -k -b cookiefile -c cookiefile \
 unzip SAS.zip -d ./contents
 
 # Copy SPK and config file to client build
-cp $SCRLOC/tmp/contents/import.spk $SCRLOC/tmp/$BUILD_FOLDER/sas
+cp $SCRLOC/tmp/contents/import.spk $SCRLOC/tmp/$BUILD_FOLDER
 
 
 echo ---------------------------------------------------------------
@@ -70,12 +69,12 @@ ng build --prod --aot --base-href ./
 echo ---------------------------------------------------------------
 echo Copy build files across to client build repo
 echo ---------------------------------------------------------------
-mkdir $SCRLOC/tmp/$BUILD_FOLDER/web
+mkdir $SCRLOC/tmp/$BUILD_FOLDER/usernavigator
 #git clone $GIT_BUILD $SCRLOC/tmp/$BUILD_FOLDER/
-cd $SCRLOC/tmp/$BUILD_FOLDER/web
-cp -a $SCRLOC/tmp/$PROJECT_FOLDER/dist/. $SCRLOC/tmp/$BUILD_FOLDER/web
+cd $SCRLOC/tmp/$BUILD_FOLDER/usernavigator
+cp -a $SCRLOC/tmp/$PROJECT_FOLDER/dist/. $SCRLOC/tmp/$BUILD_FOLDER/usernavigator
 cp $SCRLOC/tmp/$PROJECT_FOLDER/build/h54sConfig.json \
-    $SCRLOC/tmp/$BUILD_FOLDER/web/h54sConfig.json
+    $SCRLOC/tmp/$BUILD_FOLDER/usernavigator/h54sConfig.json
 
 echo ---------------------------------------------------------------
 echo Deploy to Boemska test repo
@@ -87,19 +86,13 @@ cp $SCRLOC/tmp/contents/h54sConfig.json $SCRLOC/tmp/test/h54sConfig.json
 rsync -avz --exclude .git/ --exclude .gitignore --del $SCRLOC/tmp/test/* \
     $USERNAME@apps.boemskats.com:/pub/ht/builds/usernavigator
 
-<<<<<<< Updated upstream
 echo ---------------------------------------------------------------
 echo Create Zip folder
 echo ---------------------------------------------------------------
 
 cd $SCRLOC/tmp
-zip -r user-navigator.zip $SCRLOC/tmp/$BUILD_FOLDER/*
+zip -r user-navigator.zip $BUILD_FOLDER/*
 
-
-=======
-cd $SCRLOC/tmp
-zip -r user-navigator.zip $SCRLOC/tmp/$BUILD_FOLDER/*
->>>>>>> Stashed changes
 #echo ---------------------------------------------------------------
 #echo Git Commit - commit build files to build repo
 #echo ---------------------------------------------------------------

@@ -31,19 +31,20 @@ There are five steps to getting the User Navigator up and running in your enviro
 
 ### 1 - Download the Source
 
-The latest stable version of User Navigator is always available as a github [release](https://github.com/Boemska/user-navigator/releases).  If you prefer to build from source, follow the [Build Instructions](https://github.com/Boemska/user-navigator/blob/master/CONTRIBUTING.md).  This will create the zip file containing two folders - `web` (front end) and `sas` (stored processes etc).
+The latest stable version of User Navigator is always available as a github [release](https://github.com/Boemska/user-navigator/releases).  If you prefer to build from source, follow the [Build Instructions](https://github.com/Boemska/user-navigator/blob/master/CONTRIBUTING.md).
 
 ### 2 - Implement the backend
 
-In the downloaded zip file, in the `sas` folder, you will find an SPK.  Import this SPK to a preferred location in metadata.  Secure this application by setting an ACT as appropriate on the parent folder.  Take note of the folder root in which these STPs were deployed (as it's used in the configuration in step 4).
+Unzip the package and import the `import.spk` file using SAS Management Console (or batch tools) to a preferred location in metadata.  Secure this application by setting an ACT as appropriate on the parent folder.  Take note of the folder root in which these STPs were deployed (it's used in the following configuration step).
 
-### 3 - Implement the frontend
+### 3 - Update the h54s config file
 
-In the downloaded release, once unzipped, you will find a `web` folder.  The contents of this folder need to be deployed to your web server.  For 9.4 this location would be `/opt/sas94/config/Lev1/Web/WebServer/htdocs`.  It is recommended to make a parent folder (such as `usernavigator`) as this will form part of the url for your app.
+Inside the `usernavigator` folder there is a configuration file called `h54s.config`.  Within this, set the `metadataRoot` value to the folder root identified in the previous step.
 
-### 4 - Configure
+### 4 - Deploy the frontend
 
-Inside the `web` folder there is a configuration file called `h54s.config`.  Within this, set the `metadataRoot` value to the folder root identified in step 2.
+Copy the entire `usernavigator` folder (with the modifed `h54s.config`) to your web server.  For 9.4 this location would be `/opt/sas94/config/Lev1/Web/WebServer/htdocs`.
+
 
 ### 5 - Profit
 

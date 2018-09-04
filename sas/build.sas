@@ -72,18 +72,18 @@ data _null_;
 data _null_;
   infile " cd ""&platform_object_path/tools"" %trim(
     ); ./sas-make-folder &connx_string  %trim(
-    ) ""&deploy_dir/build"" -makeFullPath 2>&1"
+    ) ""&deploy_dir/UserNavigator"" -makeFullPath 2>&1"
     pipe lrecl=10000;
   input;list;
 data _null_;
   infile " cd ""&platform_object_path/tools"" %trim(
     ); ./sas-make-folder &connx_string  %trim(
-    ) ""&deploy_dir/build/Public"" -makeFullPath 2>&1"
+    ) ""&deploy_dir/UserNavigator/Public"" -makeFullPath 2>&1"
     pipe lrecl=10000;
   input;list;
 
 
-%let loc_meta=&deploy_dir/build;
+%let loc_meta=&deploy_dir/UserNavigator;
 
 options noquotelenmax;
 
@@ -167,13 +167,21 @@ data _null_;
     ) ; ./ExportPackage &connx_string -disableX11 %trim(
     )-package ""&build_dir/import.spk"" %trim(
     )-objects ""&loc_meta(Folder)"" %trim(
-    )-types ""StoredProcess"" %trim(
+    )-objects ""&loc_meta/Public(Folder)"" %trim(
+    )-objects ""&loc_meta/Public/getAllGroups(StoredProcess)"" %trim(
+    )-objects ""&loc_meta/Public/getAllMembers(StoredProcess)"" %trim(
+    )-objects ""&loc_meta/Public/getAllRoles(StoredProcess)"" %trim(
+    )-objects ""&loc_meta/Public/getGroupsByMember(StoredProcess)"" %trim(
+    )-objects ""&loc_meta/Public/getMembersByGroup(StoredProcess)"" %trim(
+    )-objects ""&loc_meta/Public/getMembersByRole(StoredProcess)"" %trim(
     )-log ""&build_dir/spkexport.log"" 2>&1"
     pipe lrecl=10000;
   input;
   list;
 run;
 
+/*
+    )-types ""StoredProcess"" %trim(*/
 
 /**
  * We now have a generated SPK, lets deploy it to make sure it works ok
