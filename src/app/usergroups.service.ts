@@ -50,7 +50,7 @@ export class UsergroupsService {
   };
 
   public goToUser(memberName) {
-    this._router.navigateByUrl("/users/" + memberName);
+    this._router.navigateByUrl("/users/" + this.repairTxt_2F(memberName));
   };
 
   public async getAllMembers() {
@@ -97,7 +97,7 @@ export class UsergroupsService {
   };
 
   public goToGroup(groupName) {
-    this._router.navigateByUrl("/groups/" + groupName);
+    this._router.navigateByUrl("/groups/" + this.repairTxt_2F(groupName));
   };
 
   public async getAllGroups() {
@@ -144,7 +144,7 @@ export class UsergroupsService {
   };
 
   public goToRole(roleName) {
-    this._router.navigateByUrl("/roles/" + roleName);
+    this._router.navigateByUrl("/roles/" + this.repairTxt_2F(roleName));
   };
 
   public async getAllRoles() {
@@ -170,6 +170,10 @@ export class UsergroupsService {
 
   public repairTxt(inputTxt): string {
     return inputTxt.replace(/%20/g, ' ');
+  };
+
+  public repairTxt_2F(inputTxt): string {
+    return inputTxt.replace(/\//g, '%2F');
   };
 
   public getParamFromUrl(url: string): string {
