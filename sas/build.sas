@@ -97,7 +97,7 @@ options noquotelenmax;
     infile "&h54" end=eof;
     input;  put _infile_;
     if eof then do;
-      put '%bafgetdatasets;';
+      put '%bafgetdatasets()';
       put '/***  End Adapter Code ***/';
     end;
   run;

@@ -27,7 +27,7 @@
 
 %checkEnvironment;
 
-%macro bafGetDatasets;
+%macro bafGetDatasets();
   /*
   _WEBIN_NAME has the name of each parameter for the counterpart spec
   _WEBIN_FILE_COUNT has the total number of files. If 1 then we need no suffix
