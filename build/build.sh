@@ -73,7 +73,7 @@ mkdir $SCRLOC/tmp/$BUILD_FOLDER/usernavigator
 #git clone $GIT_BUILD $SCRLOC/tmp/$BUILD_FOLDER/
 cd $SCRLOC/tmp/$BUILD_FOLDER/usernavigator
 cp -a $SCRLOC/tmp/$PROJECT_FOLDER/dist/. $SCRLOC/tmp/$BUILD_FOLDER/usernavigator
-cp $SCRLOC/tmp/$PROJECT_FOLDER/build/h54sConfig.json \
+cp $SCRLOC/tmp/contents/h54sConfig.json \
     $SCRLOC/tmp/$BUILD_FOLDER/usernavigator/h54sConfig.json
 
 echo ---------------------------------------------------------------

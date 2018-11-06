@@ -87,7 +87,7 @@ data _null_;
 
 options noquotelenmax;
 
-%macro add_file(src=,stp=,h54=,tree=);
+%macro add_file(src=,stp=,h54=,tree=,stpdesc=);
 
   /* first - add adapter */
   %let sfile=%sysfunc(pathname(work))/temp.txt;
@@ -121,39 +121,55 @@ options noquotelenmax;
     ,tree=&tree
     ,Server=SASApp
     ,stptype=2
-    ,mdebug=1)
+    ,mdebug=1
+    ,stpdesc=&stpdesc)
 
 %mend;
+
+%let uid=UN%mf_uid();
+%let uid_desc=Boemska App Identifier- &uid;
 
 %add_file(src=&loc_repo/sas/stps/Public/getAllGroups.sas
   ,stp=getAllGroups
   ,tree=&loc_meta/Public
-  ,h54=&loc_h54)
+  ,h54=&loc_h54
+  ,stpdesc=Service to retrieve all Groups.  &uid_desc
+)
 
 %add_file(src=&loc_repo/sas/stps/Public/getAllMembers.sas
   ,stp=getAllMembers
   ,tree=&loc_meta/Public
-  ,h54=&loc_h54)
+  ,h54=&loc_h54
+  ,stpdesc=Service to retrieve all Users.  &uid_desc
+)
 
 %add_file(src=&loc_repo/sas/stps/Public/getAllRoles.sas
   ,stp=getAllRoles
   ,tree=&loc_meta/Public
-  ,h54=&loc_h54)
+  ,h54=&loc_h54
+  ,stpdesc=Service to retrieve all Roles.  &uid_desc
+)
 
 %add_file(src=&loc_repo/sas/stps/Public/getGroupsByMember.sas
   ,stp=getGroupsByMember
   ,tree=&loc_meta/Public
-  ,h54=&loc_h54)
+  ,h54=&loc_h54
+  ,stpdesc=Service to retrieve all Groups for a User.  &uid_desc
+)
 
 %add_file(src=&loc_repo/sas/stps/Public/getMembersByGroup.sas
   ,stp=getMembersByGroup
   ,tree=&loc_meta/Public
-  ,h54=&loc_h54)
+  ,h54=&loc_h54
+  ,stpdesc=Service to retrieve all Members in a Group.  &uid_desc
+)
 
 %add_file(src=&loc_repo/sas/stps/Public/getMembersByRole.sas
   ,stp=getMembersByRole
   ,tree=&loc_meta/Public
-  ,h54=&loc_h54)
+  ,h54=&loc_h54
+  ,stpdesc=Service to retrieve all Users in  Role.  &uid_desc
+)
 
 
 /**
@@ -208,12 +224,21 @@ data _null_;
 run;
 
 /* create the config file for web frontend */
+/*
 data _null_;
   file "&build_dir/h54sConfig.json";
-  string='{"metadataRoot":"'!!"&deploy_dir/deploy"!!'/UserNavigator"}';
+  string='{"metadataRoot":"'!!"&deploy_dir/deploy"!!'/UserNavigator",'
+    !!'"metadataRootLocator":"'!!"&uid"!!'"}';
   put string;
 run;
-
+*/
+data _null_;
+  file "&build_dir/h54sConfig.json";
+  put '{'/
+      '  "metadataRoot":"/YOUR/METADATA/LOCATION/",' /
+      '  "appId":"' "&uid" '"'/
+      '}';
+run;
 
 /* show log */
 proc printto log=log;

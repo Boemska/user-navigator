@@ -7,6 +7,7 @@ import { ClarityModule } from 'clarity-angular';
 import { AppComponent } from './app.component';
 import { ROUTING } from "./app.routing";
 import { NotFoundComponent } from './not-found/not-found.component';
+import { UrlSerializer } from "@angular/router";
 
 import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
@@ -17,28 +18,33 @@ import { NavRolesComponent } from './sidenav/nav-roles/nav-roles.component';
 import { UsergroupsService } from './usergroups.service';
 
 import { BoemskaModule } from './boemska/boemska.module';
+import { StandardUrlSerializer } from "./standardUrlSerializer";
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotFoundComponent,
-    UsersComponent,
     GroupsComponent,
-    RolesComponent,
     NavUsersComponent,
     NavGroupsComponent,
-    NavRolesComponent
+    NavRolesComponent,
+    NotFoundComponent,
+    RolesComponent,
+    UsersComponent,
   ],
   imports: [
-    BrowserAnimationsModule,
+    BoemskaModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    ClarityModule.forRoot(),
     FormsModule,
     HttpModule,
-    ClarityModule.forRoot(),
-    ROUTING,
-    BoemskaModule
+    ROUTING
   ],
   providers: [
+    {
+      provide: UrlSerializer,
+      useClass: StandardUrlSerializer
+    },
     UsergroupsService
   ],
   bootstrap: [AppComponent]
