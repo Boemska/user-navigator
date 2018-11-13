@@ -32,6 +32,11 @@ $clr-light-gray: #eee;
     }
   }
 
+  .logout {
+    align-items: center;
+    justify-content: space-between;
+  }
+
   clr-dropdown-menu {
     color: $clr-dark-gray;
     min-width: 200px;

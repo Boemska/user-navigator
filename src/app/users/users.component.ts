@@ -23,6 +23,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   public showRolesTable: boolean;
   public isDataReady: boolean = false;
   public userSub: Subscription;
+  public info: any;
+  public logins: Array<any>;
   private _memberObject: any;
 
   constructor(
@@ -65,6 +67,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     try {
       this._memberObject = await this._usergroupsService.getGroupsByMember(this.memberName);
       this.memberEmails = this._memberObject.emails;
+      this.info = this._memberObject.info[0];
+      this.logins = this._memberObject.logins;
     } catch (error) {
       console.log(error);
     };
