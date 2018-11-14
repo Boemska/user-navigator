@@ -1,6 +1,6 @@
 {
   "name": "user-navigator",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Shows relationships between users, group and roles",
   "angular-cli": {},
   "scripts": {

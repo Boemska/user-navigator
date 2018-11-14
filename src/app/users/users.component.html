@@ -1,11 +1,36 @@
 <div *ngIf="isDataReady" class="divSettings col-lg-8 col-md-10 col-sm-12 col-xs-12">
-  <h2>
-    <span>
-      <b>{{memberName}}</b>
-    </span>
-  </h2>
-  <!--  -->
-  <br>
+  <div>
+    <div>
+      <div style="font-size: 24px">
+        <b>{{info.NAME}}</b>
+      </div>
+      <div style="font-size: 20px">
+        {{info.DISPLAYNAME}}
+      </div>
+    </div>
+    <br>
+    <div>
+      <div style="display: inline-block; padding-right:10px;">
+        <div>
+          <b>Metadata Created: </b>
+        </div>
+        <div>
+          {{info.METADATACREATED}}
+        </div>
+      </div>
+      <div style="display: inline-block; padding-left:10px;">
+        <div>
+          <b>Metadata Updated: </b>
+        </div>
+        <div>
+          {{info.METADATAUPDATED}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div *ngIf="isDataReady" class="divSettings col-lg-8 col-md-10 col-sm-12 col-xs-12">
   <h4>E-Mails ( {{memberEmails.length}} ) :</h4>
   <div class="col-md-12 tableWrapper" *ngIf="showEmailsTable">
     <table class="table">
@@ -62,4 +87,26 @@
     <span>No Roles For Selected User</span>
     <br>
   </div>
+
 </div>
+<br>
+<div *ngIf="isDataReady" class="divSettings col-lg-8 col-md-10 col-sm-12 col-xs-12">
+  <div style="font-size: 20px">
+    Logins:
+  </div>
+  <div class="col-md-12 tableWrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>DOMAIN</th>
+          <th>USER ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let login of logins">
+          <td style="cursor: pointer;"> {{login.DOMAIN}} </td>
+          <td style="cursor: pointer;">{{login.USERID}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
